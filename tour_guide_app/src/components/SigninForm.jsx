@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Typography, Container, Paper } from '@mui/material';
-// import { useNavigate } from 'react-router-dom'; 
-// import { auth, onAuthStateChanged, signInWithEmailAndPassword, db, collection, addDoc } from './Firebase'; 
+import { useNavigate } from 'react-router-dom'; 
+import { useUserAuth } from './context/UserAuthProvider';
 
 function SigninForm() {
 
+  const { Signin } = useUserAuth()
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
   
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       console.log("User is logged in", user);
-  //       console.log("User ID: ", user.uid);
-  //       navigate('/chat')
-  //     } else {
-  //       console.log("No user is logged in.");
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []); 
 
   const handleValue = (e) => {
     const { name, value } = e.target;
@@ -32,27 +22,11 @@ function SigninForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-  //     console.log("Successfully Signed In!", userCredential.user);
-      
-      
-  //     await addDoc(collection(db, 'users'), {
-  //       uid: userCredential.user.uid,
-  //       email: userCredential.user.email,
-  //       createdAt: new Date(),
-  //     });
+    const {email, password } = formData;
+    await Signin(email, password);
+    console.log("Login Sucessfully!!");
+    navigate("/home", { replace: true } )
 
-  //     alert("Successfully Signed In!");
-  //     navigate('/chat');
-      
-    
-
-  //   } catch (error) {
-  //     console.error("Error signing in: ", error.message);
-  //     alert(error.message);
-  //   }
   };
 
   return (
@@ -75,6 +49,14 @@ function SigninForm() {
               onChange={handleValue}
               autoComplete="email"
               autoFocus
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                  borderColor: "orange", // Outline color on focus
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "orange", // Label color on focus
+                },
+              }}
             />
             <TextField
               variant="outlined"
@@ -88,13 +70,20 @@ function SigninForm() {
               value={formData.password}
               onChange={handleValue}
               autoComplete="current-password"
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                  borderColor: "orange", // Outline color on focus
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "orange", // Label color on focus
+                },
+              }}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
-              sx={{ marginTop: 2 }}
+              sx={{ marginTop: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: '#ff8c00' } }}
             >
               Sign In
             </Button>

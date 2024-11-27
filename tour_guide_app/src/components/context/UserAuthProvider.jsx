@@ -5,13 +5,13 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
-
+    signOut 
 } from "../Firebase/Firebase.js";
 
 
 const UserAuthContext = createContext();
 
-export function UserAuthContextProvider({childern}){
+export function UserAuthContextProvider({ children }){
 
     const [ user , setUser ]=useState(null)
     const [ loading , setLoading ]=useState(true)
@@ -24,25 +24,28 @@ export function UserAuthContextProvider({childern}){
         signInWithEmailAndPassword(auth, email, password);
     }
 
+    const Logout = ()=>{
+        return signOut(auth);
+    }
+
     useEffect(()=>{
         const unsubscribe= onAuthStateChanged(auth, (currentUser)=>{
             setUser(currentUser);
             setLoading(false);
-
-            return ()=>{
-                unsubscribe();
-            }
-        })
+        });
+        return ()=>{
+            unsubscribe();
+        }
     },[])
 
     return(
-        <UserAuthContext.Provider value={{user, Signup, Signin}}>
-            {childern}
+        <UserAuthContext.Provider value={{user, Signup, Signin, Logout}}>
+            {children}
         </UserAuthContext.Provider>
     )
 }
 
-export function UseUserAuth(){
+export function useUserAuth(){
     return(
         useContext(UserAuthContext)
     )

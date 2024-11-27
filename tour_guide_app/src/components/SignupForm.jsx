@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography, Container, Paper } from '@mui/material';
-import { UseUserAuth } from "./context/UserAuthProvider";
+import { useUserAuth } from "./context/UserAuthProvider";
+import { useNavigate } from 'react-router-dom';
+
 
 const SignupForm = () => {
 
-  const [Signup]= UseUserAuth()
+  const { Signup }= useUserAuth()
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -30,6 +34,9 @@ const SignupForm = () => {
 
     try{
       await Signup(email, password);
+      alert("Sucessfuly created !");
+      navigate("/signin")
+
     }catch(error){
       console.log("Error>>", error);
     }
@@ -39,7 +46,7 @@ const SignupForm = () => {
     <Container component="main" maxWidth="xs" sx={{ height: '100vh' }}>
       <Box display="flex" justifyContent="center" alignItems="center" height="100%">
         <Paper elevation={3} sx={{ padding: 3 }}>
-          <Typography variant="h5" align="center" gutterBottom>
+          <Typography variant="h5" align="center"  gutterBottom>
             Sign Up
           </Typography>
           <form onSubmit={handleSubmit}>
@@ -53,6 +60,14 @@ const SignupForm = () => {
               value={formData.name}
               onChange={handleValue}
               autoFocus
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                  borderColor: "orange", // Outline color on focus
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "orange", // Label color on focus
+                },
+              }}
             />
             <TextField
               variant="outlined"
@@ -64,6 +79,14 @@ const SignupForm = () => {
               value={formData.email}
               onChange={handleValue}
               autoComplete="email"
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                  borderColor: "orange", // Outline color on focus
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "orange", // Label color on focus
+                },
+              }}
             />
             <TextField
               variant="outlined"
@@ -75,6 +98,14 @@ const SignupForm = () => {
               name="password"
               value={formData.password}
               onChange={handleValue}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                  borderColor: "orange", // Outline color on focus
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "orange", // Label color on focus
+                },
+              }}
             />
             <TextField
               variant="outlined"
@@ -86,13 +117,20 @@ const SignupForm = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleValue}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused fieldset": {
+                  borderColor: "orange", // Outline color on focus
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "orange", // Label color on focus
+                },
+              }}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
-              sx={{ marginTop: 2 }}
+              sx={{ marginTop: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: '#ff8c00' } }}
             >
               Sign Up
             </Button>

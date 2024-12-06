@@ -1,12 +1,11 @@
 import React from 'react';
+import AdminSidebar from '../Dashboard/AdminPanel';
 
 const TransportBooking = () => {
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Transport Booking</h1>
-      <p>Book your transportation for a hassle-free journey.</p>
-    </div>
+    <AdminSidebar/>
   );
 };
 
 export default TransportBooking;
+

@@ -1,10 +1,9 @@
 import React from 'react';
-import AddTourPackages from '../AddTourPakeges';
 
 const About = () => {
   return (
     <>
-    <AddTourPackages/>
+    <h1>About</h1>
     </>
   );
 };

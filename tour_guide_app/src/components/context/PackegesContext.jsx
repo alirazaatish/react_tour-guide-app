@@ -1,16 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { db, collection, getDocs } from "../Firebase/Firebase";
 
-// Create the context
+
 const PackageContext = createContext();
 
-// Provider Component
 export const PackageProvider = ({ children }) => {
     const [packages, setPackages] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch tour packages from Firestore
         const fetchPackages = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, "Packages"));
@@ -35,7 +33,7 @@ export const PackageProvider = ({ children }) => {
     );
 };
 
-// Custom Hook to use the context
+
 export const usePackages = () => {
     return useContext(PackageContext);
 };

@@ -19,6 +19,11 @@ import HotelsBooking from "./components/Pages/HotelsBooking";
 import TourPackages from "./components/Pages/TourPackages";
 import TransportBooking from "./components/Pages/TransportBooking";
 
+// Admin Panel Imports
+import AdminPanel from "./components/Dashboard/AdminPanel";
+import AdminLogin from "./components/Dashboard/AdminLogin";
+import AddTourPackages from "./components/Dashboard/AddTourPakeges";
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -46,6 +51,21 @@ const router = createBrowserRouter([
       { path: 'about', element: <About /> },
     ],
   },
+  {
+    path: '/Admin',
+    element: <AdminLogin/>,
+  },
+  {
+    path: '/Admin/Panel',
+    element: <AdminPanel/>,
+    children: [
+      {path: 'add/tours/packages', element: <AddTourPackages/>}
+      
+      // {path="/users" element={<Users />}},
+      
+      // { path="/bookings" element={<Bookings />}}
+    ]
+  }
 ]);
 
 function App() {

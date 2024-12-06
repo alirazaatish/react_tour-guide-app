@@ -14,7 +14,7 @@ const AddTourPackages = () => {
 
     const type = ['image/png', 'image/jpeg'];
 
-    // Handle image change (validate image type)
+
     const tourImageHandler = (e) => {
         let selectedFile = e.target.files[0];
         if (selectedFile && type.includes(selectedFile.type)) {
@@ -26,7 +26,7 @@ const AddTourPackages = () => {
         }
     };
 
-    // Handle form submission
+    
     const addTourPackages = async (e) => {
         e.preventDefault();
 
@@ -38,10 +38,10 @@ const AddTourPackages = () => {
         console.log("Uploading file:", tourPakegeImg);
 
         try {
-            // Create FormData object to send to Cloudinary
+            
             const formData = new FormData();
             formData.append('file', tourPakegeImg);
-            formData.append('upload_preset', 'tourPackageImages');  // Replace with your Cloudinary preset name
+            formData.append('upload_preset', 'tourPackageImages');  
 
             // Upload image to Cloudinary
             const response = await axios.post('https://api.cloudinary.com/v1_1/dnry1uzoj/image/upload', formData);
@@ -68,7 +68,7 @@ const AddTourPackages = () => {
                 console.error("Error adding document: ", e);
               }
 
-            // Reset the form
+            
             setTourPakegeName("");
             setTourPakegePrice("");
             setTourDescription("");

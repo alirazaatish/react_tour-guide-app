@@ -12,6 +12,10 @@ import HomePage from "./components/HomePage";
 import { UserAuthContextProvider } from "./components/context/UserAuthProvider";
 import { PackageProvider } from "./components/context/PackegesContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+// NOT Found Page import 
+import NotFound from "./components/NotFound";
+
 // Pages imports
 import About from "./components/Pages/About";
 import Destination from "./components/Pages/Destinations";
@@ -23,6 +27,8 @@ import TransportBooking from "./components/Pages/TransportBooking";
 import AdminPanel from "./components/Dashboard/AdminPanel";
 import AdminLogin from "./components/Dashboard/AdminLogin";
 import AddTourPackages from "./components/Dashboard/AddTourPakeges";
+import Users from "./components/Dashboard/Users";
+import Bookings from "./components/Dashboard/Bookings";
 
 const router = createBrowserRouter([
   {
@@ -59,12 +65,15 @@ const router = createBrowserRouter([
     path: '/Admin/Panel',
     element: <AdminPanel/>,
     children: [
-      {path: 'add/tours/packages', element: <AddTourPackages/>}
-      
-      // {path="/users" element={<Users />}},
-      
+      {path: 'add/tours/packages', element: <AddTourPackages/>},
+      {path:"users", element: <Users />},
+      {path:"bookings", element: <Bookings />},
       // { path="/bookings" element={<Bookings />}}
     ]
+  },
+  {
+    path: '*',
+    element: <NotFound/>
   }
 ]);
 

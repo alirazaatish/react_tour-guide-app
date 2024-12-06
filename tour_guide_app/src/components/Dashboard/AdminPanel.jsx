@@ -3,9 +3,9 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 function AdminPanel() {
   const menuItems = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Users", path: "/users" },
+    { name: "Users", path: "users" },
     { name: "Tours Packeges", path: "add/tours/packages"},
-    { name: "Bookings", path: "/bookings" },
+    { name: "Bookings", path: "bookings" },
     { name: "Financials", path: "/financials" },
     { name: "Settings", path: "/settings" },
   ];

@@ -12,13 +12,15 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-s
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCgPH4GtWHTmSX3_wgqJNfa_3qo6E75Yw0",
-    authDomain: "tour-app-bf752.firebaseapp.com",
-    projectId: "tour-app-bf752",
-    storageBucket: "tour-app-bf752.appspot.com", 
-    messagingSenderId: "717538354757",
-    appId: "1:717538354757:web:ab76bc1c97f921e85b252c",
-    measurementId: "G-6S2MKHJBEM"
+   
+
+ apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId:import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase app and services

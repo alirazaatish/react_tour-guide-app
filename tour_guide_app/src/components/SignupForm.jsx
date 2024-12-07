@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from './Navbar';
 import { Box, Button, TextField, Typography, Container, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useUserAuth } from './context/UserAuthProvider';
@@ -6,29 +7,29 @@ import { db, collection, addDoc } from "./Firebase/Firebase";
 import Swal from 'sweetalert2';
 
 function SignupForm() {
-  const { Signup } = useUserAuth(); 
-  const navigate = useNavigate(); 
+  const { Signup } = useUserAuth();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(''); 
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  
+
   const handleValue = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
-    setLoading(true); 
-    setError(''); 
+    event.preventDefault();
+    setLoading(true);
+    setError('');
 
-    const {name, email, password, confirmPassword } = formData;
+    const { name, email, password, confirmPassword } = formData;
 
     const users = {
       userName: name,
@@ -76,6 +77,8 @@ function SignupForm() {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="bg-gray-200">
       <Container component="main" maxWidth="xs" sx={{ height: '100vh' }}>
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
@@ -189,7 +192,12 @@ function SignupForm() {
           </Paper>
         </Box>
       </Container>
+      <footer class="bg-gray-800 text-white text-center p-4">
+        <p>&copy; 2024 Ali Raza. All Rights Reserved.</p>
+      </footer>
     </div>
+    </>
+    
   );
 }
 

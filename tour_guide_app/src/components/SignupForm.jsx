@@ -1,67 +1,82 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Container, Paper } from '@mui/material';
-import { db, collection, addDoc } from "./Firebase/Firebase";
-import { useUserAuth } from "./context/UserAuthProvider";
 import { useNavigate } from 'react-router-dom';
+import { useUserAuth } from './context/UserAuthProvider';
+import { db, collection, addDoc } from "./Firebase/Firebase";
+import Swal from 'sweetalert2';
 
+function SignupForm() {
+  const { Signup } = useUserAuth(); 
+  const navigate = useNavigate(); 
 
-const SignupForm = () => {
-
-  const { Signup } = useUserAuth()
-
-  const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(''); 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-
+  
   const handleValue = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData({ ...formData, [name]: value });
   };
 
-
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const {name, email, password, confirmPassword } = formData;
+    event.preventDefault(); 
+    setLoading(true); 
+    setError(''); 
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+    const {name, email, password, confirmPassword } = formData;
 
     const users = {
       userName: name,
       userEmail: email,
       userPassword: password,
     };
+
     try {
       await Signup(email, password);
       const docRef = await addDoc(collection(db, "Users"), users);
-      console.log("Document written with ID: ", docRef.id);
-      alert("Sucessfuly created !");
 
-      setFormData(
-        {
-          name: '',
-          email: '',
-          password: '',
-          confirmPassword: ''
-        }
-      )
-      
-      navigate("/signin")
+      console.log("Document written with ID: ", docRef.id);
+
+      // SweetAlert2 success message
+      Swal.fire({
+        title: 'Signup Successful!',
+        text: 'You have successfully signed up.',
+        icon: 'success',
+        confirmButtonText: 'Proceed to Login',
+      }).then(() => {
+        // Redirect to Signin page after alert
+        navigate("/signin");
+      });
+
+      // Reset form data
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      });
 
     } catch (error) {
+      setLoading(false);
       console.log("Error>>", error);
+
+      // SweetAlert2 error message
+      Swal.fire({
+        title: 'Signup Failed!',
+        text: `Error: ${error.message}`,
+        icon: 'error',
+        confirmButtonText: 'Try Again',
+      });
     }
   };
 
   return (
-    <div className = "bg-gray-200">
+    <div className="bg-gray-200">
       <Container component="main" maxWidth="xs" sx={{ height: '100vh' }}>
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
           <Paper elevation={3} sx={{ padding: 3 }}>
@@ -74,17 +89,19 @@ const SignupForm = () => {
                 margin="normal"
                 required
                 fullWidth
-                label="Full Name"
+                id="name"
+                label="Name"
                 name="name"
                 value={formData.name}
                 onChange={handleValue}
+                autoComplete="name"
                 autoFocus
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "orange", // Outline color on focus
+                    borderColor: "orange",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "orange", // Label color on focus
+                    color: "orange",
                   },
                 }}
               />
@@ -93,6 +110,7 @@ const SignupForm = () => {
                 margin="normal"
                 required
                 fullWidth
+                id="email"
                 label="Email Address"
                 name="email"
                 value={formData.email}
@@ -100,10 +118,10 @@ const SignupForm = () => {
                 autoComplete="email"
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "orange", // Outline color on focus
+                    borderColor: "orange",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "orange", // Label color on focus
+                    color: "orange",
                   },
                 }}
               />
@@ -112,17 +130,19 @@ const SignupForm = () => {
                 margin="normal"
                 required
                 fullWidth
-                label="Create Password"
+                label="Password"
                 type="password"
+                id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleValue}
+                autoComplete="current-password"
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "orange", // Outline color on focus
+                    borderColor: "orange",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "orange", // Label color on focus
+                    color: "orange",
                   },
                 }}
               />
@@ -133,15 +153,17 @@ const SignupForm = () => {
                 fullWidth
                 label="Confirm Password"
                 type="password"
+                id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleValue}
+                autoComplete="current-password"
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "orange", // Outline color on focus
+                    borderColor: "orange",
                   },
                   "& .MuiInputLabel-root.Mui-focused": {
-                    color: "orange", // Label color on focus
+                    color: "orange",
                   },
                 }}
               />
@@ -149,19 +171,25 @@ const SignupForm = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ marginTop: 2, backgroundColor: 'orange', '&:hover': { backgroundColor: '#ff8c00' } }}
+                sx={{
+                  marginTop: 2,
+                  backgroundColor: 'orange',
+                  '&:hover': {
+                    backgroundColor: '#ff8c00',
+                  }
+                }}
+                disabled={loading}
               >
                 Sign Up
               </Button>
             </form>
             <Typography variant="body2" align="center" sx={{ marginTop: 2 }}>
-              Do you have an account? <a href="/signin">Sign In</a>
+              Already have an account? <a href="/signin">Sign In</a>
             </Typography>
           </Paper>
         </Box>
       </Container>
     </div>
-    
   );
 }
 

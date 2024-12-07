@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AdminLogin = () => {
 
@@ -14,19 +15,29 @@ const AdminLogin = () => {
     const handleValue = (e) => {
         const { name, value } = e.target;
         setAdminData({ ...adminData, [name]: value });
-      };
-    
-      const handleSubmit = async (event) => {
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const {name, email, password} = adminData;
-        if(name==="Admin" && email==="admin@gmail.com" && password ==="admin321"){
-            console.log("Login Sucessfully!!");
-            navigate("/Admin/Panel", { replace: true } )
-        }else{
-            alert("Invalide Email and PAssword!!");
+        const { name, email, password } = adminData;
+        if (name === "Admin" && email === "admin@gmail.com" && password === "admin321") {
+            Swal.fire({
+                title: 'Admin Login Successful!',
+                text: 'Welcome Admin',
+                icon: 'success',
+                confirmButtonText: 'Proceed',
+            });
+            navigate("/Admin/Panel", { replace: true })
+        } else {
+            Swal.fire({
+                title: 'Access Denied!',
+                text: 'You are not an admin.',
+                icon: 'error',
+                confirmButtonText: 'Try Again',
+            });
         }
-      };
-    
+    };
+
     return (
         <>
             <div class="min-h-screen flex items-center justify-center bg-gray-200">

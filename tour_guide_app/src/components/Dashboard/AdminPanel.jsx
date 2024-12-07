@@ -2,9 +2,9 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 
 function AdminPanel() {
   const menuItems = [
-    { name: "Dashboard", path: "/dashboard" },
+    { name: "Dashboard", path: "dashboard" },
     { name: "Users", path: "users" },
-    { name: "Tours Packeges", path: "add/tours/packages"},
+    { name: "Tours Packeges", path: "add/tours/packages" },
     { name: "Bookings", path: "bookings" },
     { name: "Financials", path: "/financials" },
     { name: "Settings", path: "/settings" },
@@ -35,13 +35,12 @@ function AdminPanel() {
             ))}
           </ul>
         </div>
-
         <div class="flex-1 p-6">
-          <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-          <p class="mt-4 text-gray-600">Welcome to your Tour App dashboard. Here’s a quick overview.</p>
-          <Outlet/>
+          <Outlet />
         </div>
-        
+
+
+
       </div>
 
 

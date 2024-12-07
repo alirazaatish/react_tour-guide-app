@@ -29,11 +29,12 @@ import AdminLogin from "./components/Dashboard/AdminLogin";
 import AddTourPackages from "./components/Dashboard/AddTourPakeges";
 import Users from "./components/Dashboard/Users";
 import Bookings from "./components/Dashboard/Bookings";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/signup" />,
+    element: <Navigate to="/home" />,
   },
   {
     path: '/signup',
@@ -65,10 +66,11 @@ const router = createBrowserRouter([
     path: '/Admin/Panel',
     element: <AdminPanel/>,
     children: [
+      {path:"dashboard", element: <Dashboard />},
       {path: 'add/tours/packages', element: <AddTourPackages/>},
       {path:"users", element: <Users />},
       {path:"bookings", element: <Bookings />},
-      // { path="/bookings" element={<Bookings />}}
+      
     ]
   },
   {

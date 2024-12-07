@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Typography, Container, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useUserAuth } from './context/UserAuthProvider';
+// import { useUserAuth } from './context/UserAuthProvider';
+import { auth, signInWithEmailAndPassword } from './Firebase/Firebase';
+import Swal from 'sweetalert2';
 
 function SigninForm() {
 
-  const { Signin } = useUserAuth()
+  // const { Signin } = useUserAuth()
 
   const navigate = useNavigate();
 
@@ -20,12 +22,43 @@ function SigninForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const { email, password } = formData;
-    await Signin(email, password);
-    navigate("/home", { replace: true })
 
+    // Firebase sign-in attempt
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in successfully
+        const user = userCredential.user;
+        console.log("User signed in: ", user);
+
+        // Show success message with SweetAlert2
+        Swal.fire({
+          title: 'Signin Successful!',
+          text: 'You have successfully logged in.',
+          icon: 'success',
+          confirmButtonText: 'Proceed',
+        });
+
+        // Navigate to the home page
+        navigate("/home", { replace: true });
+      })
+      .catch((error) => {
+        // Handle errors
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.error('Signin error:', errorMessage);
+
+        // Show error message with SweetAlert2
+        Swal.fire({
+          title: 'Signin Failed!',
+          text: `Error: ${errorMessage}`,
+          icon: 'error',
+          confirmButtonText: 'Try Again',
+        });
+      });
   };
 
   return (

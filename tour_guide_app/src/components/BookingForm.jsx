@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { db, collection, addDoc } from "./Firebase/Firebase"
+import Swal from 'sweetalert2';
 
 const BookingForm = ({ setShowForm }) => {
     console.log("Booking Chala!!");
@@ -23,7 +24,7 @@ const BookingForm = ({ setShowForm }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Booking submitted for package:");
         console.log("NAME: ", formData.name);
@@ -43,7 +44,12 @@ const BookingForm = ({ setShowForm }) => {
         try {
             const docRef = await addDoc(collection(db, "Bookings"), booking);
             console.log("Document written with ID: ", docRef.id);
-            // alert("Sucessfuly created !");
+            Swal.fire({
+                title: 'Booking Successful!',
+                html: '<strong>Your booking has been successfully placed!</strong><br><p>We will get in touch with you soon.</p>',
+                icon: 'success',
+                confirmButtonText: 'Okay'
+              });
 
         } catch (error) {
             console.log("Error>>", error);
@@ -87,6 +93,12 @@ const BookingForm = ({ setShowForm }) => {
                         className="w-full p-3 border border-orange-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
                     <div className="w-full flex items-center justify-between space-x-4 p-3 border border-orange-300 rounded-md bg-gray-100">
+                        <label
+                            htmlFor="travel-date"
+                            className="text-sm font-medium text-gray-600 mb-1"
+                        >
+                            No Of Persons:
+                        </label>
                         <button
                             type="button"
                             onClick={() => handlePersonCount()}
